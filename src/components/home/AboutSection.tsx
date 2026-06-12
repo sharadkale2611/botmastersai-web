@@ -1,3 +1,8 @@
+"use client";
+
+import { useRef } from "react";
+import { gsap, registerAnimationPlugins, useGSAP } from "@/lib/animations";
+
 const features = [
   {
     number: "01",
@@ -25,41 +30,89 @@ const features = [
 ];
 
 export default function AboutSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      registerAnimationPlugins();
+
+      const leftContent = "[data-about-left]";
+      const missionCard = "[data-about-mission]";
+      const featureCards = gsap.utils.toArray<HTMLElement>(
+        "[data-about-feature-card]",
+      );
+
+      gsap.from(leftContent, {
+        autoAlpha: 0,
+        x: -24,
+        duration: 0.8,
+        ease: "power2.out",
+        immediateRender: false,
+        scrollTrigger: {
+          trigger: leftContent,
+          start: "top 82%",
+          once: true,
+        },
+      });
+
+      gsap.from(missionCard, {
+        autoAlpha: 0,
+        scale: 0.97,
+        duration: 0.8,
+        ease: "power2.out",
+        immediateRender: false,
+        scrollTrigger: {
+          trigger: missionCard,
+          start: "top 86%",
+          once: true,
+        },
+      });
+
+      gsap.from(featureCards, {
+        autoAlpha: 0,
+        y: 18,
+        scale: 0.98,
+        duration: 0.8,
+        ease: "power2.out",
+        stagger: 0.1,
+        immediateRender: false,
+        scrollTrigger: {
+          trigger: "[data-about-features]",
+          start: "top 84%",
+          once: true,
+        },
+      });
+    },
+    { scope: sectionRef },
+  );
+
   return (
     <section
+      ref={sectionRef}
       id="about"
-      className="relative overflow-hidden bg-[#F7F9FD] px-5 py-20 sm:py-24 lg:px-8 lg:py-28"
+      className="relative bg-[#F7F9FD] px-5 py-12 sm:py-20 lg:px-8 lg:py-28"
     >
       <div className="absolute right-0 top-0 -z-10 size-80 rounded-full bg-[#D4AF37]/10 blur-3xl" />
       <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:gap-20">
-        <div>
+        <div data-about-left>
           <p className="text-sm font-bold uppercase tracking-[0.25em] text-[#B59020]">
             About BotMasters AI
           </p>
-          <h2 className="mt-4 text-3xl font-bold leading-tight tracking-tight text-[#0B3D91] sm:text-5xl">
-            Transforming Learners into Professional Developers
+          <h2 className="mt-4 text-balance  font-bold leading-tight tracking-tight text-[#0B3D91] sm:text-5xl">
+            Building Future-Ready Developers
           </h2>
-          <div className="mt-6 space-y-5 text-base leading-8 text-slate-600 sm:text-lg">
+          <div className="mt-6 space-y-5 text-pretty text-base leading-8 text-slate-600 sm:text-lg">
             <p>
-              BotMasters AI is an industry-oriented software development and AI
-              solutions company committed to helping students, freshers, and
-              professionals bridge the gap between learning and real-world
-              software development.
-            </p>
+              BotMasters AI empowers students, freshers, and professionals with practical software development experience through project-based internships and personalized mentorship.            </p>
             <p>
-              We focus on project-based internships, personalized mentorship,
-              and modern software engineering practices to provide practical
-              industry experience.
-            </p>
-            <p>
-              Participants gain hands-on experience by building
-              enterprise-grade applications and AI-powered solutions across
-              domains such as CRM, ERP, LMS, E-Commerce, IoT, and intelligent
-              automation.
+              Build enterprise applications and AI-powered solutions across CRM, ERP, LMS, E-Commerce, IoT, and intelligent automation using modern engineering practices.
             </p>
           </div>
 
-          <div className="mt-8 rounded-2xl border border-[#D4AF37]/40 bg-white p-6 shadow-sm">
+          <div
+            data-about-mission
+            className="mt-8 rounded-2xl border border-[#D4AF37]/40 bg-white p-6 shadow-sm"
+          >
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#B59020]">
               Our Mission
             </p>
@@ -70,9 +123,10 @@ export default function AboutSection() {
           </div>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div data-about-features className="grid gap-4 sm:grid-cols-2">
           {features.map(({ number, title, description }) => (
             <article
+              data-about-feature-card
               key={title}
               className="group rounded-3xl border border-[#0B3D91]/10 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-2 hover:border-[#D4AF37]/60 hover:shadow-xl hover:shadow-[#0B3D91]/10 sm:p-7"
             >

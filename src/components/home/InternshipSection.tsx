@@ -13,7 +13,7 @@ export default function InternshipSection() {
   return (
     <section
       id="internships"
-      className="relative overflow-hidden bg-white px-5 py-20 sm:py-24 lg:px-8 lg:py-28"
+      className="relative overflow-hidden bg-white px-5 py-12 sm:py-20 lg:px-8 lg:py-28"
     >
       <div className="absolute left-1/2 top-0 -z-10 h-80 w-full max-w-4xl -translate-x-1/2 bg-[radial-gradient(circle_at_top,rgba(212,175,55,0.14),transparent_65%)]" />
       <div className="mx-auto max-w-6xl">
@@ -21,10 +21,10 @@ export default function InternshipSection() {
           <p className="text-sm font-bold uppercase tracking-[0.25em] text-[#B59020]">
             Internship Journey
           </p>
-          <h2 className="mt-4 text-3xl font-bold tracking-tight text-[#0B3D91] sm:text-5xl">
+          <h2 className="mt-4 text-balance text-3xl font-bold tracking-tight text-[#0B3D91] sm:text-5xl">
             The BotMasters Internship Experience
           </h2>
-          <p className="mt-5 text-lg leading-8 text-slate-600">
+          <p className="mt-5 text-pretty text-lg leading-8 text-slate-600">
             From learning to deployment, experience how modern software teams
             work.
           </p>

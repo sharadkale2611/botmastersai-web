@@ -1,3 +1,8 @@
+"use client";
+
+import { useRef } from "react";
+import { fadeUp, staggerCards, useGSAP } from "@/lib/animations";
+
 const services = [
   {
     number: "01",
@@ -35,31 +40,56 @@ const services = [
 ];
 
 export default function ServicesSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      fadeUp("[data-services-heading]", {
+        duration: 0.8,
+        ease: "power3.out",
+        trigger: "[data-services-heading]",
+      });
+
+      staggerCards("[data-service-card]", {
+        duration: 0.8,
+        ease: "power3.out",
+        stagger: 0.1,
+        trigger: "[data-services-grid]",
+      });
+    },
+    { scope: sectionRef },
+  );
+
   return (
     <section
+      ref={sectionRef}
       id="services"
-      className="relative overflow-hidden bg-[#F7F9FD] px-5 py-20 sm:py-24 lg:px-8 lg:py-28"
+      className="relative overflow-hidden bg-[#F7F9FD] px-5 py-12 sm:py-20 lg:px-8 lg:py-28"
     >
       <div className="absolute right-0 top-0 -z-10 size-96 rounded-full bg-[#D4AF37]/10 blur-3xl" />
       <div className="mx-auto max-w-7xl">
-        <div className="mx-auto max-w-3xl text-center">
+        <div data-services-heading className="mx-auto max-w-3xl text-center">
           <p className="text-sm font-bold uppercase tracking-[0.25em] text-[#B59020]">
             Services
           </p>
-          <h2 className="mt-4 text-3xl font-bold tracking-tight text-[#0B3D91] sm:text-5xl">
+          <h2 className="mt-4 text-balance text-3xl font-bold tracking-tight text-[#0B3D91] sm:text-5xl">
             What We Offer
           </h2>
-          <p className="mt-5 text-lg leading-8 text-slate-600">
+          <p className="mt-5 text-pretty text-lg leading-8 text-slate-600">
             Industry-oriented services designed to transform skills into
             real-world experience.
           </p>
         </div>
 
-        <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div
+          data-services-grid
+          className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3"
+        >
           {services.map(({ number, title, description }) => (
             <article
+              data-service-card
               key={title}
-              className="group relative overflow-hidden rounded-3xl border border-[#0B3D91]/10 bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-2 hover:border-[#D4AF37]/70 hover:shadow-xl hover:shadow-[#0B3D91]/10"
+              className="group relative overflow-hidden rounded-3xl border border-[#0B3D91]/10 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-[#D4AF37]/70 hover:shadow-xl hover:shadow-[#0B3D91]/20 sm:p-7"
             >
               <div className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-gradient-to-r from-[#0B3D91] to-[#D4AF37] transition-transform duration-300 group-hover:scale-x-100" />
               <div className="flex items-center justify-between">

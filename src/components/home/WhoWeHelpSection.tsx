@@ -1,3 +1,8 @@
+"use client";
+
+import { useRef } from "react";
+import { gsap, registerAnimationPlugins, useGSAP } from "@/lib/animations";
+
 const audiences = [
   {
     number: "01",
@@ -26,34 +31,82 @@ const audiences = [
 ];
 
 export default function WhoWeHelpSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      registerAnimationPlugins();
+
+      const heading = "[data-who-heading]";
+      const cards = gsap.utils.toArray<HTMLElement>("[data-who-card]");
+
+      gsap.from(heading, {
+        autoAlpha: 0,
+        y: 28,
+        duration: 0.85,
+        ease: "power3.out",
+        immediateRender: false,
+        scrollTrigger: {
+          trigger: heading,
+          start: "top 84%",
+          once: true,
+        },
+      });
+
+      gsap.from(cards, {
+        autoAlpha: 0,
+        y: 22,
+        scale: 0.98,
+        duration: 0.85,
+        ease: "power3.out",
+        stagger: 0.12,
+        immediateRender: false,
+        scrollTrigger: {
+          trigger: "[data-who-cards]",
+          start: "top 84%",
+          once: true,
+        },
+      });
+    },
+    { scope: sectionRef },
+  );
+
   return (
     <section
+      ref={sectionRef}
       id="who-we-help"
-      className="relative overflow-hidden bg-white px-5 py-20 sm:py-24 lg:px-8 lg:py-28"
+      className="relative bg-white px-5 py-12 sm:py-20 lg:px-8 lg:py-28"
     >
       <div className="absolute left-0 top-1/2 -z-10 size-80 -translate-y-1/2 rounded-full bg-[#0B3D91]/5 blur-3xl" />
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-8 border-b border-[#0B3D91]/10 pb-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+        <div
+          data-who-heading
+          className="grid gap-8 border-b border-[#0B3D91]/10 pb-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-end"
+        >
           <div>
             <p className="text-sm font-bold uppercase tracking-[0.25em] text-[#B59020]">
               Who We Help
             </p>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-[#0B3D91] sm:text-5xl">
+            <h2 className="mt-4 text-balance text-3xl font-bold tracking-tight text-[#0B3D91] sm:text-5xl">
               Built for people ready to move forward
             </h2>
           </div>
-          <p className="max-w-2xl text-lg leading-8 text-slate-600 lg:justify-self-end">
+          <p className="max-w-2xl text-pretty text-lg leading-8 text-slate-600 lg:justify-self-end">
             Whether you are starting your journey, advancing your career, or
             transforming a business, BotMasters AI connects learning with
             practical software and AI experience.
           </p>
         </div>
 
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div
+          data-who-cards
+          className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
+        >
           {audiences.map(({ number, title, description }) => (
             <article
+              data-who-card
               key={title}
-              className="group relative min-h-72 overflow-hidden rounded-3xl border border-[#0B3D91]/10 bg-[#F7F9FD] p-6 transition duration-300 hover:-translate-y-2 hover:border-[#D4AF37]/60 hover:bg-white hover:shadow-xl hover:shadow-[#0B3D91]/10 sm:p-7"
+              className="group relative min-h-64 overflow-hidden rounded-3xl border border-[#0B3D91]/10 bg-[#F7F9FD] p-6 transition duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-[#D4AF37]/60 hover:bg-white hover:shadow-xl hover:shadow-[#0B3D91]/10 sm:min-h-72 sm:p-7"
             >
               <span className="text-sm font-black tracking-[0.2em] text-[#D4AF37]">
                 {number}

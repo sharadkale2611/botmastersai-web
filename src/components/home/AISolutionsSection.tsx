@@ -41,7 +41,7 @@ export default function AISolutionsSection() {
   return (
     <section
       id="ai-solutions"
-      className="relative isolate overflow-hidden bg-[#061A3A] px-5 py-20 text-white sm:py-24 lg:px-8 lg:py-28"
+      className="relative isolate overflow-hidden bg-[#061A3A] px-5 py-12 text-white sm:py-20 lg:px-8 lg:py-28"
     >
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,rgba(212,175,55,0.16),transparent_30%),radial-gradient(circle_at_bottom_left,rgba(29,97,201,0.3),transparent_38%)]" />
       <div className="absolute inset-0 -z-10 opacity-20 [background-image:linear-gradient(rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:48px_48px]" />
@@ -52,11 +52,11 @@ export default function AISolutionsSection() {
             <p className="text-sm font-bold uppercase tracking-[0.25em] text-[#D4AF37]">
               AI Solutions
             </p>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-5xl">
+            <h2 className="mt-4 text-balance text-3xl font-bold tracking-tight sm:text-5xl">
               Build the Future with AI
             </h2>
           </div>
-          <p className="max-w-2xl text-lg leading-8 text-blue-100/75 lg:justify-self-end">
+          <p className="max-w-2xl text-pretty text-lg leading-8 text-blue-100/75 lg:justify-self-end">
             Leverage modern AI technologies to create intelligent applications
             and automation.
           </p>
@@ -66,7 +66,7 @@ export default function AISolutionsSection() {
           {solutions.map(({ number, title, description }) => (
             <article
               key={title}
-              className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.06] p-7 backdrop-blur transition duration-300 hover:-translate-y-2 hover:border-[#D4AF37]/60 hover:bg-white/[0.1] hover:shadow-2xl hover:shadow-black/20"
+              className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.06] p-6 backdrop-blur transition duration-300 hover:-translate-y-2 hover:border-[#D4AF37]/60 hover:bg-white/[0.1] hover:shadow-2xl hover:shadow-black/20 sm:p-7"
             >
               <div className="absolute right-0 top-0 size-28 translate-x-10 -translate-y-10 rounded-full border border-[#D4AF37]/20 transition-transform duration-500 group-hover:scale-150" />
               <div className="flex items-center justify-between">

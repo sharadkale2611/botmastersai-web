@@ -11,9 +11,9 @@
 ✓ AISolutionsSection
 ✓ DomainsSection
 ✓ RoadmapSection
+✓ FAQSection
+✓ CTASection
 
 # Pending
 
 TestimonialsSection
-FAQSection
-CTASection

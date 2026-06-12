@@ -1,6 +1,8 @@
 import AboutSection from "@/components/home/AboutSection";
 import AISolutionsSection from "@/components/home/AISolutionsSection";
+import CTASection from "@/components/home/CTASection";
 import DomainsSection from "@/components/home/DomainsSection";
+import FAQSection from "@/components/home/FAQSection";
 import HeroSection from "@/components/home/HeroSection";
 import InternshipSection from "@/components/home/InternshipSection";
 import RoadmapSection from "@/components/home/RoadmapSection";
@@ -10,7 +12,7 @@ import WhoWeHelpSection from "@/components/home/WhoWeHelpSection";
 
 export default function Home() {
   return (
-    <main>
+    <main className="overflow-hidden">
       <HeroSection />
       <TechnologiesSection />
       <AboutSection />
@@ -19,7 +21,9 @@ export default function Home() {
       <InternshipSection />
       <AISolutionsSection />
       <DomainsSection />
-      <RoadmapSection />
+      {/* <RoadmapSection /> */}
+      <FAQSection />
+      <CTASection />
     </main>
   );
 }

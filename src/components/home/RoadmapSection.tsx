@@ -16,7 +16,7 @@ export default function RoadmapSection() {
   return (
     <section
       id="roadmap"
-      className="relative overflow-hidden bg-white px-5 py-20 sm:py-24 lg:px-8 lg:py-28"
+      className="relative overflow-hidden bg-white px-5 py-12 sm:py-20 lg:px-8 lg:py-28"
     >
       <div className="absolute left-1/2 top-0 -z-10 h-full w-full max-w-3xl -translate-x-1/2 bg-[radial-gradient(circle_at_center,rgba(11,61,145,0.08),transparent_65%)]" />
       <div className="mx-auto max-w-5xl">
@@ -24,17 +24,16 @@ export default function RoadmapSection() {
           <p className="text-sm font-bold uppercase tracking-[0.25em] text-[#B59020]">
             Roadmap
           </p>
-          <h2 className="mt-4 text-3xl font-bold tracking-tight text-[#0B3D91] sm:text-5xl">
+          <h2 className="mt-4 text-balance text-3xl font-bold tracking-tight text-[#0B3D91] sm:text-5xl">
             Your Learning Journey
           </h2>
-          <p className="mt-5 text-lg leading-8 text-slate-600">
+          <p className="mt-5 text-pretty text-lg leading-8 text-slate-600">
             Progress through a structured path from core programming concepts
             to AI integration and interview readiness.
           </p>
         </div>
 
-        <ol className="relative mx-auto mt-16 max-w-3xl">
-          <div className="absolute bottom-8 left-6 top-8 w-px bg-gradient-to-b from-[#D4AF37] via-[#0B3D91]/30 to-[#D4AF37] sm:left-1/2 sm:-translate-x-1/2" />
+        <ol className="relative mx-auto mt-16 max-w-3xl before:absolute before:bottom-8 before:left-6 before:top-8 before:w-px before:bg-gradient-to-b before:from-[#D4AF37] before:via-[#0B3D91]/30 before:to-[#D4AF37] sm:before:left-1/2 sm:before:-translate-x-1/2">
 
           {roadmapSteps.map((step, index) => (
             <li
