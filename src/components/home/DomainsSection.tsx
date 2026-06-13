@@ -1,3 +1,5 @@
+'use client';
+
 import {
   FiUsers,
   FiLayers,
@@ -12,6 +14,10 @@ import {
   FiCalendar,
   FiAperture,
 } from "react-icons/fi";
+
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from "react";
+
 
 const domains = [
   { name: "CRM", icon: FiUsers },
@@ -29,6 +35,31 @@ const domains = [
 ];
 
 export default function DomainsSection() {
+
+const [startIndex, setStartIndex] = useState(0);
+
+
+const visibleCards =
+  typeof window !== "undefined" && window.innerWidth < 640
+    ? 1
+    : typeof window !== "undefined" && window.innerWidth < 1024
+      ? 2
+      : 3;
+
+const next = () => {
+  setStartIndex((prev) =>
+    prev + visibleCards >= domains.length ? 0 : prev + visibleCards
+  );
+};
+
+const prev = () => {
+  setStartIndex((prev) =>
+    prev === 0
+      ? Math.max(domains.length - visibleCards, 0)
+      : prev - visibleCards
+  );
+};
+
   return (
     <section
       id="projects"
@@ -49,29 +80,58 @@ export default function DomainsSection() {
           </p>
         </div>
 
-        <div className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-          {domains.map(({ name, icon: Icon }, index) => (
-            <article
-              key={name}
-              className="group relative min-h-40 overflow-hidden rounded-3xl border border-[#0B3D91]/10 bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-2 hover:border-[#D4AF37]/70 hover:shadow-xl hover:shadow-[#0B3D91]/10 sm:min-h-44 sm:p-6"
-            >
-              <div className="absolute -right-10 -top-10 size-28 rounded-full bg-[#0B3D91]/5 transition-transform duration-500 group-hover:scale-150 group-hover:bg-[#D4AF37]/10" />
-              <div className="relative flex h-full flex-col justify-between">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="grid min-h-11 min-w-11 place-items-center rounded-xl bg-[#0B3D91] text-[#D4AF37] transition-transform duration-300 group-hover:rotate-6">
-                    <Icon className="h-6 w-6" aria-hidden="true" />
-                  </div>
-                  <span className="text-xs font-bold text-[#0B3D91]/30">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                </div>
-                <h3 className="mt-8 font-bold leading-6 text-[#0B3D91]">
-                  {name}
-                </h3>
-              </div>
-            </article>
-          ))}
+<div className="relative mt-16 overflow-hidden">
+  <div className="flex gap-6 animate-domains-scroll w-max">
+    {[...domains, ...domains].map(({ name, icon: Icon }, index) => (
+      <article
+        key={`${name}-${index}`}
+className="
+group
+w-[280px]
+sm:w-[320px]
+lg:w-[360px]
+flex-shrink-0
+overflow-hidden
+rounded-3xl
+border
+border-[#0B3D91]/10
+bg-white
+p-8
+shadow-sm
+transition
+duration-300
+hover:-translate-y-2
+hover:border-[#D4AF37]/70
+hover:shadow-xl
+hover:shadow-[#0B3D91]/10
+"      >
+        <div className="flex items-center gap-5">
+          <div className="grid h-14 w-14 place-items-center rounded-2xl bg-[#0B3D91] text-[#D4AF37]">
+            <Icon className="h-7 w-7" />
+          </div>
+
+          <div>
+            <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#B59020]">
+              Domain
+            </div>
+
+            <h3 className="mt-2 text-2xl font-bold text-[#0B3D91]">
+              {name}
+            </h3>
+          </div>
         </div>
+
+        <div className="mt-8 border-t border-slate-200 pt-6">
+          <p className="leading-7 text-slate-600">
+            Build real-world applications and gain practical experience through
+            project-based development.
+          </p>
+        </div>
+      </article>
+    ))}
+  </div>
+</div>
+
       </div>
     </section>
   );

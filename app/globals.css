@@ -13,10 +13,17 @@
   --font-mono: var(--font-geist-mono);
 }
 
+html,
 body {
   background: var(--background);
   color: var(--foreground);
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 ::selection {
@@ -31,4 +38,22 @@ body {
 
 section {
   scroll-margin-top: 5.5rem;
+}
+
+@keyframes domains-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(-50% - 12px));
+  }
+}
+
+.animate-domains-scroll {
+  animation: domains-scroll 45s linear infinite;
+}
+
+.animate-domains-scroll:hover {
+  animation-play-state: paused;
 }
