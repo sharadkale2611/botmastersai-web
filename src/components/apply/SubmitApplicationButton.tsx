@@ -4,19 +4,37 @@ import { useState } from "react";
 import { Loader2, Send } from "lucide-react";
 import Link from "next/link";
 
-export default function SubmitApplicationButton() {
+interface Props {
+  formData: any;
+}
+
+export default function SubmitApplicationButton({
+  formData,
+}: Props) {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
-    setLoading(true);
-
     try {
-      // TODO: Call API here
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      setLoading(true);
 
-      alert("Application submitted successfully!");
+      const response = await fetch("/api/internships", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        alert("Application submitted successfully.");
+      } else {
+        alert(result.message);
+      }
     } catch (error) {
-      alert("Something went wrong. Please try again.");
+      console.error(error);
+      alert("Something went wrong.");
     } finally {
       setLoading(false);
     }
@@ -24,8 +42,6 @@ export default function SubmitApplicationButton() {
 
   return (
     <section className="border-t border-[#0B3D91]/10 pt-10">
-
-
       <div className="flex flex-col items-center gap-6">
         <button
           type="button"
@@ -59,30 +75,23 @@ export default function SubmitApplicationButton() {
           )}
         </button>
 
-<p className="mt-4 text-sm text-slate-500">
-
-</p>
-
-
         <p className="max-w-xl text-center text-sm leading-6 text-slate-500">
-          By submitting this application,
-  you agree to our{" "}
-  <Link
-    href="/privacy-policy"
-    className="text-[#0B3D91] underline"
-  >
-    Privacy Policy
-  </Link>{" "}
-  and{" "}
-  <Link
-    href="/internship-terms"
-    className="text-[#0B3D91] underline"
-  >
-    Internship Terms & Conditions
-  </Link>. Additionally,          
-           you acknowledge that BotMasters AI
-          may contact you regarding internship opportunities and related
-          communications.
+          By submitting this application, you agree to our{" "}
+          <Link
+            href="/privacy-policy"
+            className="text-[#0B3D91] underline"
+          >
+            Privacy Policy
+          </Link>{" "}
+          and{" "}
+          <Link
+            href="/internship-terms"
+            className="text-[#0B3D91] underline"
+          >
+            Internship Terms & Conditions
+          </Link>
+          . Additionally, you acknowledge that BotMasters AI may contact you
+          regarding internship opportunities and related communications.
         </p>
       </div>
     </section>

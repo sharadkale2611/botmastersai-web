@@ -1,6 +1,17 @@
 "use client";
 
-export default function InternshipSelection() {
+interface Props {
+  formData: {
+    internshipProgram: string;
+    preferredStack: string;
+  };
+  setFormData: React.Dispatch<React.SetStateAction<any>>;
+}
+
+export default function InternshipSelection({
+  formData,
+  setFormData,
+}: Props) {
   const internshipTypes = [
     "Project-Based Internship",
     "Academic Internship",
@@ -34,18 +45,24 @@ export default function InternshipSelection() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
-        {/* Internship Type */}
+        {/* Internship Program */}
         <div>
           <label
-            htmlFor="internshipType"
+            htmlFor="internshipProgram"
             className="mb-2 block text-sm font-semibold text-slate-700"
           >
             Internship Program <span className="text-red-500">*</span>
           </label>
 
           <select
-            id="internshipType"
-            name="internshipType"
+            id="internshipProgram"
+            value={formData.internshipProgram}
+            onChange={(e) =>
+              setFormData((prev: any) => ({
+                ...prev,
+                internshipProgram: e.target.value,
+              }))
+            }
             className="w-full rounded-2xl border border-[#0B3D91]/10 bg-white px-5 py-4 text-slate-700 outline-none transition focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/20"
           >
             <option value="">Select Internship Program</option>
@@ -69,7 +86,13 @@ export default function InternshipSelection() {
 
           <select
             id="preferredStack"
-            name="preferredStack"
+            value={formData.preferredStack}
+            onChange={(e) =>
+              setFormData((prev: any) => ({
+                ...prev,
+                preferredStack: e.target.value,
+              }))
+            }
             className="w-full rounded-2xl border border-[#0B3D91]/10 bg-white px-5 py-4 text-slate-700 outline-none transition focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/20"
           >
             <option value="">Select Technology Stack</option>

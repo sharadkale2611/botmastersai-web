@@ -1,6 +1,18 @@
 "use client";
 
-export default function DeclarationSection() {
+interface Props {
+  formData: {
+    isInformationCorrect: boolean;
+    isCommunicationAllowed: boolean;
+    isPrivacyAccepted: boolean;
+  };
+  setFormData: React.Dispatch<React.SetStateAction<any>>;
+}
+
+export default function DeclarationSection({
+  formData,
+  setFormData,
+}: Props) {
   return (
     <section>
       <div className="mb-8">
@@ -23,8 +35,13 @@ export default function DeclarationSection() {
         <label className="flex items-start gap-4">
           <input
             type="checkbox"
-            name="declaration"
-            required
+            checked={formData.isInformationCorrect}
+            onChange={(e) =>
+              setFormData((prev: any) => ({
+                ...prev,
+                isInformationCorrect: e.target.checked,
+              }))
+            }
             className="mt-1 h-5 w-5 rounded border-[#0B3D91]/20 text-[#0B3D91] focus:ring-[#D4AF37]"
           />
 
@@ -38,7 +55,13 @@ export default function DeclarationSection() {
         <label className="flex items-start gap-4">
           <input
             type="checkbox"
-            name="communicationConsent"
+            checked={formData.isCommunicationAllowed}
+            onChange={(e) =>
+              setFormData((prev: any) => ({
+                ...prev,
+                isCommunicationAllowed: e.target.checked,
+              }))
+            }
             className="mt-1 h-5 w-5 rounded border-[#0B3D91]/20 text-[#0B3D91] focus:ring-[#D4AF37]"
           />
 
@@ -52,8 +75,13 @@ export default function DeclarationSection() {
         <label className="flex items-start gap-4">
           <input
             type="checkbox"
-            name="privacyPolicy"
-            required
+            checked={formData.isPrivacyAccepted}
+            onChange={(e) =>
+              setFormData((prev: any) => ({
+                ...prev,
+                isPrivacyAccepted: e.target.checked,
+              }))
+            }
             className="mt-1 h-5 w-5 rounded border-[#0B3D91]/20 text-[#0B3D91] focus:ring-[#D4AF37]"
           />
 
@@ -68,10 +96,10 @@ export default function DeclarationSection() {
       {/* Notice */}
       <div className="mt-6 rounded-2xl border border-[#D4AF37]/20 bg-[#D4AF37]/5 p-5">
         <p className="text-sm leading-7 text-slate-600">
-          <span className="font-semibold text-[#0B3D91]">Note:</span> Submission
-          of this application does not guarantee selection. Shortlisted
-          candidates will be contacted via email or phone for further
-          evaluation.
+          <span className="font-semibold text-[#0B3D91]">Note:</span>{" "}
+          Submission of this application does not guarantee selection.
+          Shortlisted candidates will be contacted via email or phone for
+          further evaluation.
         </p>
       </div>
     </section>

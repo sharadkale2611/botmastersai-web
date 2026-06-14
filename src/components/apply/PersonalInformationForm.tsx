@@ -1,23 +1,22 @@
 "use client";
 
-export default function PersonalInformationForm() {
+interface Props {
+  formData: {
+    fullName: string;
+    email: string;
+    mobile: string;
+    city: string;
+    gender: string;
+  };
+  setFormData: React.Dispatch<React.SetStateAction<any>>;
+}
+
+export default function PersonalInformationForm({
+  formData,
+  setFormData,
+}: Props) {
   return (
     <section>
-      <div className="mb-8">
-        <p className="text-sm font-bold uppercase tracking-[0.25em] text-[#B59020]">
-          Personal Information
-        </p>
-
-        <h2 className="mt-3 text-2xl font-bold text-[#0B3D91]">
-          Tell Us About Yourself
-        </h2>
-
-        <p className="mt-3 text-slate-600">
-          Please provide your personal details so we can contact you regarding
-          your internship application.
-        </p>
-      </div>
-
       <div className="grid gap-6 md:grid-cols-2">
         {/* Full Name */}
         <div>
@@ -31,7 +30,13 @@ export default function PersonalInformationForm() {
           <input
             type="text"
             id="fullName"
-            name="fullName"
+            value={formData.fullName}
+            onChange={(e) =>
+              setFormData((prev: any) => ({
+                ...prev,
+                fullName: e.target.value,
+              }))
+            }
             placeholder="Enter your full name"
             className="w-full rounded-2xl border border-[#0B3D91]/10 px-5 py-4 outline-none transition focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/20"
           />
@@ -49,13 +54,19 @@ export default function PersonalInformationForm() {
           <input
             type="email"
             id="email"
-            name="email"
+            value={formData.email}
+            onChange={(e) =>
+              setFormData((prev: any) => ({
+                ...prev,
+                email: e.target.value,
+              }))
+            }
             placeholder="example@gmail.com"
             className="w-full rounded-2xl border border-[#0B3D91]/10 px-5 py-4 outline-none transition focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/20"
           />
         </div>
 
-        {/* Mobile Number */}
+        {/* Mobile */}
         <div>
           <label
             htmlFor="mobile"
@@ -67,49 +78,16 @@ export default function PersonalInformationForm() {
           <input
             type="tel"
             id="mobile"
-            name="mobile"
+            value={formData.mobile}
+            onChange={(e) =>
+              setFormData((prev: any) => ({
+                ...prev,
+                mobile: e.target.value,
+              }))
+            }
             placeholder="+91 XXXXX XXXXX"
             className="w-full rounded-2xl border border-[#0B3D91]/10 px-5 py-4 outline-none transition focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/20"
           />
-        </div>
-
-        {/* Date of Birth */}
-        <div>
-          <label
-            htmlFor="dob"
-            className="mb-2 block text-sm font-semibold text-slate-700"
-          >
-            Date of Birth
-          </label>
-
-          <input
-            type="date"
-            id="dob"
-            name="dob"
-            className="w-full rounded-2xl border border-[#0B3D91]/10 px-5 py-4 outline-none transition focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/20"
-          />
-        </div>
-
-        {/* Gender */}
-        <div>
-          <label
-            htmlFor="gender"
-            className="mb-2 block text-sm font-semibold text-slate-700"
-          >
-            Gender
-          </label>
-
-          <select
-            id="gender"
-            name="gender"
-            className="w-full rounded-2xl border border-[#0B3D91]/10 px-5 py-4 outline-none transition focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/20"
-          >
-            <option value="">Select Gender</option>
-            <option>Male</option>
-            <option>Female</option>
-            <option>Other</option>
-            <option>Prefer not to say</option>
-          </select>
         </div>
 
         {/* City */}
@@ -124,46 +102,61 @@ export default function PersonalInformationForm() {
           <input
             type="text"
             id="city"
-            name="city"
+            value={formData.city}
+            onChange={(e) =>
+              setFormData((prev: any) => ({
+                ...prev,
+                city: e.target.value,
+              }))
+            }
             placeholder="Enter your city"
             className="w-full rounded-2xl border border-[#0B3D91]/10 px-5 py-4 outline-none transition focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/20"
           />
         </div>
 
-        {/* State */}
-        <div>
-          <label
-            htmlFor="state"
-            className="mb-2 block text-sm font-semibold text-slate-700"
-          >
-            State <span className="text-red-500">*</span>
+        {/* Gender */}
+        <div className="md:col-span-2">
+          <label className="mb-3 block text-sm font-semibold text-slate-700">
+            Gender
           </label>
 
-          <input
-            type="text"
-            id="state"
-            name="state"
-            placeholder="Enter your state"
-            className="w-full rounded-2xl border border-[#0B3D91]/10 px-5 py-4 outline-none transition focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/20"
-          />
-        </div>
+          <div className="flex gap-6">
+            <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-[#0B3D91]/10 px-5 py-4 transition hover:border-[#D4AF37]">
+              <input
+                type="radio"
+                checked={formData.gender === "Male"}
+                onChange={() =>
+                  setFormData((prev: any) => ({
+                    ...prev,
+                    gender: "Male",
+                  }))
+                }
+                className="h-4 w-4 accent-[#0B3D91]"
+              />
 
-        {/* Country */}
-        <div>
-          <label
-            htmlFor="country"
-            className="mb-2 block text-sm font-semibold text-slate-700"
-          >
-            Country
-          </label>
+              <span className="font-medium text-slate-700">
+                Male
+              </span>
+            </label>
 
-          <input
-            type="text"
-            id="country"
-            name="country"
-            defaultValue="India"
-            className="w-full rounded-2xl border border-[#0B3D91]/10 bg-slate-50 px-5 py-4 outline-none transition focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/20"
-          />
+            <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-[#0B3D91]/10 px-5 py-4 transition hover:border-[#D4AF37]">
+              <input
+                type="radio"
+                checked={formData.gender === "Female"}
+                onChange={() =>
+                  setFormData((prev: any) => ({
+                    ...prev,
+                    gender: "Female",
+                  }))
+                }
+                className="h-4 w-4 accent-[#0B3D91]"
+              />
+
+              <span className="font-medium text-slate-700">
+                Female
+              </span>
+            </label>
+          </div>
         </div>
       </div>
     </section>
