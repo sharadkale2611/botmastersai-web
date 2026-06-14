@@ -6,16 +6,32 @@ import Link from "next/link";
 
 interface Props {
   formData: any;
+  setFormData: React.Dispatch<React.SetStateAction<any>>;
+  initialFormData: any;
+
+  setSuccessMessage: React.Dispatch<React.SetStateAction<string>>;
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
+  setErrors: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 export default function SubmitApplicationButton({
   formData,
+  setFormData,
+  initialFormData,
+  setSuccessMessage,
+  setErrorMessage,
+  setErrors,
 }: Props) {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
     try {
       setLoading(true);
+
+      // Clear previous messages
+      setSuccessMessage("");
+      setErrorMessage("");
+      setErrors([]);
 
       const response = await fetch("/api/internships", {
         method: "POST",
@@ -28,13 +44,32 @@ export default function SubmitApplicationButton({
       const result = await response.json();
 
       if (result.success) {
-        alert("Application submitted successfully.");
+        setSuccessMessage(result.message);
+        setFormData(initialFormData);
       } else {
-        alert(result.message);
+        setErrorMessage(result.message);
+        setErrors(result.errors || []);
       }
+
+      document
+        .getElementById("application-form")
+        ?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
     } catch (error) {
       console.error(error);
-      alert("Something went wrong.");
+
+      setSuccessMessage("");
+      setErrorMessage("Something went wrong.");
+      setErrors([]);
+
+      document
+        .getElementById("application-form")
+        ?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
     } finally {
       setLoading(false);
     }

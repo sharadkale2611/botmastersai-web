@@ -1,12 +1,67 @@
-import {
-  Mail,
-  MapPin,
-  Phone,
-  Clock3,
-  Send,
-} from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { Mail, MapPin, Phone, Clock3, Send, Loader2 } from "lucide-react";
 
 export default function ContactPage() {
+  const initialFormData = {
+    fullName: "",
+    email: "",
+    mobile: "",
+    subject: "General Enquiry",
+    message: "",
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
+
+  const [loading, setLoading] = useState(false);
+
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [errors, setErrors] = useState<string[]>([]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+
+      setSuccessMessage("");
+      setErrorMessage("");
+      setErrors([]);
+
+      const response = await fetch("/api/enquiries", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSuccessMessage(result.message);
+        setFormData(initialFormData);
+      } else {
+        setErrorMessage(result.message);
+        setErrors(result.errors || []);
+      }
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    } catch (error) {
+      console.error(error);
+
+      setErrorMessage("Something went wrong.");
+      setErrors([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       {/* Hero */}
@@ -51,13 +106,9 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <h3 className="font-bold text-[#0B3D91]">
-                      Phone
-                    </h3>
+                    <h3 className="font-bold text-[#0B3D91]">Phone</h3>
 
-                    <p className="mt-1 text-slate-600">
-                      +91 XXXXX XXXXX
-                    </p>
+                    <p className="mt-1 text-slate-600">+91 XXXXX XXXXX</p>
                   </div>
                 </div>
 
@@ -67,13 +118,9 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <h3 className="font-bold text-[#0B3D91]">
-                      Email
-                    </h3>
+                    <h3 className="font-bold text-[#0B3D91]">Email</h3>
 
-                    <p className="mt-1 text-slate-600">
-                      support@botmasters.in
-                    </p>
+                    <p className="mt-1 text-slate-600">support@botmasters.in</p>
                   </div>
                 </div>
 
@@ -83,9 +130,7 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <h3 className="font-bold text-[#0B3D91]">
-                      Address
-                    </h3>
+                    <h3 className="font-bold text-[#0B3D91]">Address</h3>
 
                     <p className="mt-1 text-slate-600">
                       Pune, Maharashtra
@@ -101,9 +146,7 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <h3 className="font-bold text-[#0B3D91]">
-                      Working Hours
-                    </h3>
+                    <h3 className="font-bold text-[#0B3D91]">Working Hours</h3>
 
                     <p className="mt-1 text-slate-600">
                       Monday - Saturday
@@ -126,9 +169,33 @@ export default function ContactPage() {
                   We'd Love To Hear From You
                 </h2>
               </div>
+  {successMessage && (
+                    <div className="rounded-xl border border-green-200 bg-green-50 p-4">
+                      <div className="font-semibold text-green-700">
+                        {successMessage}
+                      </div>
+                    </div>
+                  )}
 
-              <form className="mt-10 space-y-6">
+                  {errorMessage && (
+                    <div className="rounded-xl border border-red-200 bg-red-50 p-4">
+                      <div className="font-semibold text-red-700">
+                        {errorMessage}
+                      </div>
+
+                      {errors.length > 0 && (
+                        <ul className="mt-3 list-disc pl-5 text-sm text-red-600 space-y-1">
+                          {errors.map((error, index) => (
+                            <li key={index}>{error}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  )}
+              <form className="mt-10 space-y-6" onSubmit={handleSubmit}>
                 <div className="grid gap-6 md:grid-cols-2">
+                
+
                   <div>
                     <label className="mb-2 block text-sm font-semibold text-slate-700">
                       Full Name
@@ -136,6 +203,13 @@ export default function ContactPage() {
 
                     <input
                       type="text"
+                      value={formData.fullName}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          fullName: e.target.value,
+                        })
+                      }
                       className="w-full rounded-2xl border border-[#0B3D91]/10 px-5 py-4 outline-none transition focus:border-[#D4AF37]"
                     />
                   </div>
@@ -147,6 +221,13 @@ export default function ContactPage() {
 
                     <input
                       type="email"
+                      value={formData.email}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          email: e.target.value,
+                        })
+                      }
                       className="w-full rounded-2xl border border-[#0B3D91]/10 px-5 py-4 outline-none transition focus:border-[#D4AF37]"
                     />
                   </div>
@@ -160,6 +241,13 @@ export default function ContactPage() {
 
                     <input
                       type="tel"
+                      value={formData.mobile}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          mobile: e.target.value,
+                        })
+                      }
                       className="w-full rounded-2xl border border-[#0B3D91]/10 px-5 py-4 outline-none transition focus:border-[#D4AF37]"
                     />
                   </div>
@@ -169,7 +257,16 @@ export default function ContactPage() {
                       Subject
                     </label>
 
-                    <select className="w-full rounded-2xl border border-[#0B3D91]/10 px-5 py-4 outline-none transition focus:border-[#D4AF37]">
+                    <select
+                      value={formData.subject}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          subject: e.target.value,
+                        })
+                      }
+                      className="w-full rounded-2xl border border-[#0B3D91]/10 px-5 py-4 outline-none transition focus:border-[#D4AF37]"
+                    >
                       <option>General Enquiry</option>
                       <option>Internship</option>
                       <option>Training</option>
@@ -187,17 +284,47 @@ export default function ContactPage() {
 
                   <textarea
                     rows={6}
-                    className="w-full rounded-2xl border border-[#0B3D91]/10 px-5 py-4 outline-none transition focus:border-[#D4AF37]"
                     placeholder="Tell us how we can help..."
+                    value={formData.message}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        message: e.target.value,
+                      })
+                    }
+                    className="w-full rounded-2xl border border-[#0B3D91]/10 px-5 py-4 outline-none transition focus:border-[#D4AF37]"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="inline-flex items-center gap-3 rounded-full bg-[#D4AF37] px-8 py-4 font-bold text-[#092E6E] shadow-lg shadow-[#D4AF37]/20 transition duration-200 hover:-translate-y-1 hover:bg-[#E2C15B]"
+                  disabled={loading}
+                  className="
+    inline-flex items-center gap-3
+    rounded-full
+    bg-[#D4AF37]
+    px-8 py-4
+    font-bold
+    text-[#092E6E]
+    shadow-lg shadow-[#D4AF37]/20
+    transition duration-200
+    hover:-translate-y-1
+    hover:bg-[#E2C15B]
+    disabled:cursor-not-allowed
+    disabled:opacity-70
+  "
                 >
-                  <Send className="h-5 w-5" />
-                  Send Enquiry
+                  {loading ? (
+                    <>
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="h-5 w-5" />
+                      Send Enquiry
+                    </>
+                  )}
                 </button>
 
                 <p className="text-sm text-slate-500">
