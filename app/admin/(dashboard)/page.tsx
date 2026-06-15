@@ -7,38 +7,59 @@ import {
   ArrowRight,
 } from "lucide-react";
 
-const stats = [
-  {
-    title: "Enquiries",
-    value: "0",
-    icon: MessageSquare,
-    href: "/admin/enquiries",
-    color: "bg-blue-100 text-[#0B3D91]",
-  },
-  {
-    title: "Internship Applications",
-    value: "0",
-    icon: GraduationCap,
-    href: "/admin/internships",
-    color: "bg-yellow-100 text-[#B59020]",
-  },
-  {
-    title: "Students",
-    value: "0",
-    icon: Users,
-    href: "/admin/students",
-    color: "bg-green-100 text-green-700",
-  },
-  {
-    title: "Courses",
-    value: "0",
-    icon: BookOpen,
-    href: "/admin/courses",
-    color: "bg-purple-100 text-purple-700",
-  },
-];
+import db from "../../../lib/db";
 
-export default function AdminDashboardPage() {
+export const dynamic = "force-dynamic";
+
+async function getDashboardData() {
+  const [rows]: any = await db.query(`
+    SELECT
+      (SELECT COUNT(*) FROM Enquiries) AS Enquiries,
+      (SELECT COUNT(*) FROM InternshipApplications) AS InternshipApplications
+  `);
+
+  return {
+    enquiries: rows[0].Enquiries,
+    internshipApplications: rows[0].InternshipApplications,
+    students: 0,
+    courses: 0,
+  };
+}
+
+export default async function AdminDashboardPage() {
+  const dashboard = await getDashboardData();
+
+  const stats = [
+    {
+      title: "Enquiries",
+      value: dashboard.enquiries,
+      icon: MessageSquare,
+      href: "/admin/enquiries",
+      color: "bg-blue-100 text-[#0B3D91]",
+    },
+    {
+      title: "Internship Applications",
+      value: dashboard.internshipApplications,
+      icon: GraduationCap,
+      href: "/admin/internships",
+      color: "bg-yellow-100 text-[#B59020]",
+    },
+    {
+      title: "Students",
+      value: dashboard.students,
+      icon: Users,
+      href: "/admin/students",
+      color: "bg-green-100 text-green-700",
+    },
+    {
+      title: "Courses",
+      value: dashboard.courses,
+      icon: BookOpen,
+      href: "/admin/courses",
+      color: "bg-purple-100 text-purple-700",
+    },
+  ];
+
   return (
     <div className="space-y-8">
       {/* Welcome */}
