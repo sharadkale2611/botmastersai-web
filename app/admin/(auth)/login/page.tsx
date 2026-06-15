@@ -28,7 +28,7 @@ export default function AdminLoginPage() {
       setErrorMessage("");
       setErrors([]);
 
-      const response = await fetch("/api/auth/login", {
+      const response = await fetch("/api/admin-auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
