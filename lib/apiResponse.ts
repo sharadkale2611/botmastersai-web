@@ -21,7 +21,7 @@ export function successResponse(
 export function errorResponse(
   message = "Failed",
   errors: string[] = [],
-  status = 400
+  status = 200
 ) {
   return NextResponse.json(
     {

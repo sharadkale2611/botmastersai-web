@@ -42,7 +42,7 @@ export default function AdminHeader({ setSidebarOpen }: Props) {
     try {
       setLoggingOut(true);
 
-      await fetch("/api/auth/logout", {
+      await fetch("/api/admin-auth/logout", {
         method: "POST",
       });
 
